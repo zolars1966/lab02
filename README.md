@@ -497,3 +497,359 @@ return | 0 | ;
 - литералы: `0, 1, 2, 3, 5`;
 - операторы: `=, <=, ++, *, %, ==, +, <<`;
 - пунктуаторы: `(`, `)`, `{`, `}`, `;`, `::`, `,`, а также служебные символы директивы `#include`.
+
+### 9.2 Полное синтаксическое дерево разбора
+
+```
+program
+└── translation_unit
+    ├── preprocessor_directive
+    │   ├── '#'
+    │   ├── '<'
+    │   ├── identifier: iostream
+    │   └── '>'
+    └── function_definition
+        ├── type_specifier: int
+        ├── identifier: main
+        ├── '('
+        ├── parameter_list: ε
+        ├── ')'
+        └── compound_statement
+            ├── '{'
+            ├── statement_list
+            │   ├── variable_declaration
+            │   │   ├── type_specifier: int
+            │   │   ├── identifier: s
+            │   │   ├── '='
+            │   │   ├── expression
+            │   │   │   └── assignment_expression
+            │   │   │       └── conditional_expression
+            │   │   │           └── logical_or_expression
+            │   │   │               └── logical_and_expression
+            │   │   │                   └── equality_expression
+            │   │   │                       ── relational_expression
+            │   │   │                           └── additive_expression
+            │   │   │                               └── multiplicative_expression
+            │   │   │                                   └── unary_expression
+            │   │   │                                       └── postfix_expression
+            │   │   │                                           └── primary_expression
+            │   │   │                                               └── constant: 0
+            │   │   └── ';'
+            │   └── statement_list
+            │       ├── for_statement
+            │       │   ├── 'for'
+            │       │   ├── '('
+            │       │   ├── for_init
+            │       │   │   └── variable_declaration
+            │       │   │       ├── type_specifier: int
+            │       │   │       ├── identifier: i
+            │       │   │       ├── '='
+            │       │   │       ├── expression
+            │       │   │       │   └── assignment_expression
+            │       │   │       │       ── conditional_expression
+            │       │   │       │           └── logical_or_expression
+            │       │   │       │               └── logical_and_expression
+            │       │   │       │                   ── equality_expression
+            │       │   │       │                       └── relational_expression
+            │       │   │       │                           └── additive_expression
+            │       │   │       │                               └── multiplicative_expression
+            │       │   │       │                                   └── unary_expression
+            │       │   │       │                                       └── postfix_expression
+            │       │   │       │                                           └── primary_expression
+            │       │   │       │                                               └── constant: 1
+            │       │   │       └── ';'
+            │       │   ├── for_condition
+            │       │   │   └── expression
+            │       │   │       └── assignment_expression
+            │       │   │           └── conditional_expression
+            │       │   │               └── logical_or_expression
+            │       │   │                   └── logical_and_expression
+            │       │   │                       └── equality_expression
+            │       │   │                           └── relational_expression
+            │       │   │                               ├── relational_expression
+            │       │   │                               │   └── additive_expression
+            │       │   │                               │       └── multiplicative_expression
+            │       │   │                               │           └── unary_expression
+            │       │   │                               │               └── postfix_expression
+            │       │   │                               │                   └── primary_expression
+            │       │   │                               │                       └── identifier: i
+            │       │   │                               ├── '<='
+            │       │   │                               └── additive_expression
+            │       │   │                                   └── multiplicative_expression
+            │       │   │                                       └── unary_expression
+            │       │   │                                           └── postfix_expression
+            │       │   │                                               └── primary_expression
+            │       │   │                                                   └── constant: 5
+            │       │   ├── ';'
+            │       │   ├── for_increment
+            │       │   │   └── expression
+            │       │   │       └── assignment_expression
+            │       │   │           └── conditional_expression
+            │       │   │               └── logical_or_expression
+            │       │   │                   ── logical_and_expression
+            │       │   │                       └── equality_expression
+            │       │   │                           └── relational_expression
+            │       │   │                               └── additive_expression
+            │       │   │                                   └── multiplicative_expression
+            │       │   │                                       └── unary_expression
+            │       │   │                                           ├── unary_operator: ++
+            │       │   │                                           └── unary_expression
+            │       │   │                                               └── postfix_expression
+            │       │   │                                                   └── primary_expression
+            │       │   │                                                       └── identifier: i
+            │       │   ├── ')'
+            │       │   └── compound_statement
+            │       │       ├── '{'
+            │       │       ├── statement_list
+            │       │       │   ├── variable_declaration
+            │       │       │   │   ├── type_specifier: int
+            │       │       │   │   ├── identifier: x
+            │       │       │   │   ├── '='
+            │       │       │   │   ├── expression
+            │       │       │   │   │   └── assignment_expression
+            │       │       │   │   │       └── conditional_expression
+            │       │       │   │   │           └── logical_or_expression
+            │       │       │   │   │               └── logical_and_expression
+            │       │       │   │   │                   └── equality_expression
+            │       │       │   │   │                       └── relational_expression
+            │       │       │   │   │                           └── additive_expression
+            │       │       │   │   │                               └── multiplicative_expression
+            │       │       │   │   │                                   ├── multiplicative_expression
+            │       │       │   │   │                                   │   └── unary_expression
+            │       │       │   │   │                                   │       └── postfix_expression
+            │       │       │   │   │                                   │           └── primary_expression
+            │       │       │   │   │                                   │               └── identifier: i
+            │       │       │   │   │                                   ├── '*'
+            │       │       │   │   │                                   └── unary_expression
+            │       │       │   │   │                                       └── postfix_expression
+            │       │       │   │   │                                           └── primary_expression
+            │       │       │   │   │                                               └── constant: 2
+            │       │       │   │   └── ';'
+            │       │       │   └── statement_list
+            │       │       │       ├── if_statement
+            │       │       │       │   ├── 'if'
+            │       │       │       │   ├── '('
+            │       │       │       │   ├── expression
+            │       │       │       │   │   └── assignment_expression
+            │       │       │       │   │       └── conditional_expression
+            │       │       │       │   │           └── logical_or_expression
+            │       │       │       │   │               └── logical_and_expression
+            │       │       │       │   │                   └── equality_expression
+            │       │       │       │   │                       ├── equality_expression
+            │       │       │       │   │                       │   └── relational_expression
+            │       │       │       │   │                       │       └── additive_expression
+            │       │       │       │   │                       │           └── multiplicative_expression
+            │       │       │       │   │                       │               ├── multiplicative_expression
+            │       │       │       │   │                       │               │   └── unary_expression
+            │       │       │       │   │                       │               │       ── postfix_expression
+            │       │       │       │   │                       │               │           └── primary_expression
+            │       │       │       │   │                       │               │               └── identifier: x
+            │       │       │       │   │                       │               ├── '%'
+            │       │       │       │   │                       │               └── unary_expression
+            │       │       │       │   │                       │                   └── postfix_expression
+            │       │       │       │   │                       │                       └── primary_expression
+            │       │       │       │   │                       │                           └── constant: 3
+            │       │       │       │   │                       ├── '=='
+            │       │       │       │   │                       └── relational_expression
+            │       │       │       │   │                           └── additive_expression
+            │       │       │       │   │                               └── multiplicative_expression
+            │       │       │       │   │                                   └── unary_expression
+            │       │       │       │   │                                       └── postfix_expression
+            │       │       │       │   │                                           └── primary_expression
+            │       │       │       │   │                                               └── constant: 0
+            │       │       │       │   ├── ')'
+            │       │       │       │   ├── compound_statement
+            │       │       │       │   │   ├── '{'
+            │       │       │       │   │   ├── statement_list
+            │       │       │       │   │   │   └── assignment_statement
+            │       │       │       │   │   │       ├── identifier: s
+            │       │       │       │   │   │       ├── '='
+            │       │       │       │   │   │       ├── expression
+            │       │       │       │   │   │       │   └── assignment_expression
+            │       │       │       │   │   │       │       └── conditional_expression
+            │       │       │       │   │   │       │           └── logical_or_expression
+            │       │       │       │   │   │       │               └── logical_and_expression
+            │       │       │       │   │   │       │                   └── equality_expression
+            │       │       │       │   │   │       │                       └── relational_expression
+            │       │       │       │   │   │       │                           └── additive_expression
+            │       │       │       │   │   │       │                               ├── additive_expression
+            │       │       │       │   │   │       │                               │   └── multiplicative_expression
+            │       │       │       │   │   │       │                               │       └── unary_expression
+            │       │       │       │   │   │       │                               │           └── postfix_expression
+            │       │       │       │   │   │       │                               │               └── primary_expression
+            │       │       │       │   │   │       │                               │                   └── identifier: s
+            │       │       │       │   │   │       │                               ├── '+'
+            │       │       │       │   │   │       │                               └── multiplicative_expression
+            │       │       │       │   │   │       │                                   └── unary_expression
+            │       │       │       │   │   │       │                                       └── postfix_expression
+            │       │       │       │   │   │       │                                           └── primary_expression
+            │       │       │       │   │   │       │                                               ── identifier: x
+            │       │       │       │   │   │       └── ';'
+            │       │       │       │   │   └── '}'
+            │       │       │       │   ├── else_clause
+            │       │       │       │   │   ├── 'else'
+            │       │       │       │   │   └── compound_statement
+            │       │       │       │   │       ├── '{'
+            │       │       │       │   │       ├── statement_list
+            │       │       │       │   │       │   └── assignment_statement
+            │       │       │       │   │       │       ├── identifier: s
+            │       │       │       │   │       │       ├── '='
+            │       │       │       │   │       │       ├── expression
+            │       │       │       │   │       │       │   └── assignment_expression
+            │       │       │       │   │       │       │       └── conditional_expression
+            │       │       │       │   │       │       │           └── logical_or_expression
+            │       │       │       │   │       │       │               └── logical_and_expression
+            │       │       │       │   │       │       │                   └── equality_expression
+            │       │       │       │   │       │       │                       └── relational_expression
+            │       │       │       │   │       │       │                           └── additive_expression
+            │       │       │       │   │       │       │                               ├── additive_expression
+            │       │       │       │   │       │       │                               │   └── multiplicative_expression
+            │       │       │       │   │       │       │                               │       └── unary_expression
+            │       │       │       │   │       │       │                               │           └── postfix_expression
+            │       │       │       │   │       │       │                               │               └── primary_expression
+            │       │       │       │   │       │       │                               │                   ── identifier: s
+            │       │       │       │   │       │       │                               ├── '+'
+            │       │       │       │   │       │       │                               └── multiplicative_expression
+            │       │       │       │   │       │       │                                   ├── multiplicative_expression
+            │       │       │       │   │       │       │                                   │   └── unary_expression
+            │       │       │       │   │       │       │                                   │       └── postfix_expression
+            │       │       │       │   │       │       │                                   │           └── primary_expression
+            │       │       │       │   │       │       │                                   │               └── identifier: x
+            │       │       │       │   │       │       │                                   ├── '*'
+            │       │       │       │   │       │       │                                   └── unary_expression
+            │       │       │       │   │       │       │                                       └── postfix_expression
+            │       │       │       │   │       │       │                                           └── primary_expression
+            │       │       │       │   │       │       │                                               └── constant: 2
+            │       │       │       │   │       │       └── ';'
+            │       │       │       │   │       └── '}'
+            │       │       │       │   └── '}'
+            │       │       │       └── '}'
+            │       └── '}'
+            ├── statement_list
+            │   └── expression_statement
+            │       ├── expression
+            │       │   └── assignment_expression
+            │       │       └── conditional_expression
+            │       │           └── logical_or_expression
+            │       │               └── logical_and_expression
+            │       │                   └── equality_expression
+            │       │                       └── relational_expression
+            │       │                           └── additive_expression
+            │       │                               └── multiplicative_expression
+            │       │                                   └── unary_expression
+            │       │                                       └── postfix_expression
+            │       │                                           ├── postfix_expression
+            │       │                                           │   └── primary_expression
+            │       │                                           │       └── identifier: std
+            │       │                                           ├── '::'
+            │       │                                           └── identifier: cout
+            │       │   ├── '<<'
+            │       │   └── expression
+            │       │       └── assignment_expression
+            │       │           └── conditional_expression
+            │       │               └── logical_or_expression
+            │       │                   └── logical_and_expression
+            │       │                       └── equality_expression
+            │       │                           └── relational_expression
+            │       │                               └── additive_expression
+            │       │                                   └── multiplicative_expression
+            │       │                                       └── unary_expression
+            │       │                                           └── postfix_expression
+            │       │                                               └── primary_expression
+            │       │                                                   └── identifier: s
+            │       └── ';'
+            └── statement_list
+                └── return_statement
+                    ├── 'return'
+                    ├── expression
+                    │   └── assignment_expression
+                    │       └── conditional_expression
+                    │           └── logical_or_expression
+                    │               └── logical_and_expression
+                    │                   ── equality_expression
+                    │                       └── relational_expression
+                    │                           └── additive_expression
+                    │                               └── multiplicative_expression
+                    │                                   └── unary_expression
+                    │                                       ── postfix_expression
+                    │                                           └── primary_expression
+                    │                                               └── constant: 0
+                    └── ';'
+            └── '}'
+```
+
+### 9.3 Абстрактное синтаксическое дерево
+
+```
+function-definition
+├── name: main
+├── return-type: int
+└── body
+    ├── declaration
+    │   ├── type: int
+    │   ├── name: s
+    │   └── init: 0
+    ├── for-loop
+    │   ├── init
+    │   │   ├── type: int
+    │   │   ├── name: i
+    │   │   └── init: 1
+    │   ├── condition
+    │   │   └── <=
+    │   │       ├── i
+    │   │       └── 5
+    │   ├── increment
+    │   │   └── ++
+    │   │       └── i
+    │   └── body
+    │       ├── declaration
+    │       │   ├── type: int
+    │       │   ├── name: x
+    │       │   └── init
+    │       │       └── *
+    │       │           ├── i
+    │       │           ── 2
+    │       └── if-else
+    │           ├── condition
+    │           │   └── ==
+    │           │       ├── %
+    │           │       │   ├── x
+    │           │       │   └── 3
+    │           │       └── 0
+    │           ├── then
+    │           │   └── =
+    │           │       ├── s
+    │           │       └── +
+    │           │           ├── s
+    │           │           └── x
+    │           └── else
+    │               ── =
+    │                   ├── s
+    │                   └── +
+    │                       ├── s
+    │                       └── *
+    │                           ├── x
+    │                           └── 2
+    ├── expression-statement
+    │   └── <<
+    │       ├── cout
+    │       └── s
+    └── return
+        └── 0
+```
+
+### 9.4 Соответствия с ассемблерным кодом
+
+| Элемент AST | Соответствующий код в `a.s` | Пояснение |
+|---|---|---|
+| `declaration: int s = 0` | `stur wzr, [x29, #-4]` / `str wzr, [sp, #8]` | Запись нуля (регистр `wzr`) в ячейку памяти, отведённую под переменную `s` |
+| `init: int i = 1` | `mov w8, #1` / `str w8, [sp, #4]` | Загрузка константы 1 в регистр `w8` и сохранение в ячейку переменной `i` |
+| `condition: i <= 5` | `ldr w8, [sp, #4]` / `subs w8, w8, #5` / `b.gt LBB0_7` | Загрузка `i`, вычитание 5 с установкой флагов; переход к выходу из цикла, если `i > 5` |
+| `increment: ++i` | `ldr w8, [sp, #4]` / `add w8, w8, #1` / `str w8, [sp, #4]` (блок `LBB0_6`) | Загрузка `i`, инкремент на 1, сохранение результата обратно в память |
+| `x = i * 2` | `ldr w8, [sp, #4]` / `lsl w8, w8, #1` / `str w8, [sp]` | Загрузка `i`, умножение на 2 через логический сдвиг влево на 1 бит, сохранение в ячейку `x` |
+| `x % 3 == 0` | `ldr w8, [sp]` / `mov w10, #3` / `sdiv w9, w8, w10` / `mul w9, w9, w10` / `subs w8, w8, w9` / `cbnz w8, LBB0_4` | Вычисление остатка от деления `x` на 3 как `x - (x/3)*3`; переход к ветке `else`, если остаток не равен нулю |
+| `s = s + x` (ветка `then`) | `ldr w8, [sp, #8]` / `ldr w9, [sp]` / `add w8, w8, w9` / `str w8, [sp, #8]` (блок `LBB0_3`) | Загрузка `s` и `x`, их сложение, сохранение результата обратно в `s` |
+| `s = s + x * 2` (ветка `else`) | `ldr w8, [sp, #8]` / `ldr w9, [sp]` / `add w8, w8, w9, lsl #1` / `str w8, [sp, #8]` (блок `LBB0_4`) | Загрузка `s` и `x`, сложение `s` с `x*2` (умножение реализовано через `lsl #1`), сохранение в `s` |
+| `cout << s` | `ldr w1, [sp, #8]` / `adrp x0, __ZNSt3__14coutE@GOTPAGE` / `ldr x0, [x0, __ZNSt3__14coutE@GOTPAGEOFF]` / `bl __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEElsEi` | Загрузка значения `s` в регистр аргумента `w1`, получение адреса `std::cout`, вызов метода `operator<<(int)` |
+| `return 0` | `mov w0, #0` | Запись 0 в регистр возвращаемого значения `w0` |
+
