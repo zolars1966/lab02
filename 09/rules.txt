@@ -1,0 +1,223 @@
+translation-unit:
+    declaration-seq
+
+declaration-seq:
+    declaration
+    declaration-seq declaration
+
+declaration:
+    function-definition
+
+function-definition:
+    attribute-specifier-seqopt decl-specifier-seq declarator virt-specifier-seqopt function-body
+
+function-body:
+    compound-statement
+
+
+declaration-statement:
+    block-declaration
+
+block-declaration:
+    simple-declaration
+
+simple-declaration:
+    decl-specifier-seq init-declarator-list ;
+
+decl-specifier-seq:
+    decl-specifier
+    decl-specifier decl-specifier-seq
+
+decl-specifier:
+    defining-type-specifier
+
+defining-type-specifier:
+    type-specifier
+
+type-specifier:
+    simple-type-specifier
+
+simple-type-specifier:
+    nested-name-specifieropt type-name
+    int
+
+init-declarator-list:
+    init-declarator
+    init-declarator-list , init-declarator
+
+init-declarator:
+    declarator
+    declarator initializer
+
+initializer:
+    brace-or-equal-initializer
+
+brace-or-equal-initializer:
+    = initializer-clause
+
+initializer-clause:
+    assignment-expression
+
+declarator:
+    ptr-declarator
+    noptr-declarator parameters-and-qualifiers
+
+ptr-declarator:
+    noptr-declarator
+
+noptr-declarator:
+    declarator-id
+    noptr-declarator parameters-and-qualifiers
+
+parameters-and-qualifiers:
+    ( parameter-declaration-clause )
+
+parameter-declaration-clause:
+    parameter-declaration-listopt
+
+declarator-id:
+    id-expression
+
+
+statement:
+    expression-statement
+    compound-statement
+    selection-statement
+    iteration-statement
+    jump-statement
+    declaration-statement
+
+compound-statement:
+    { statement-seqopt }
+
+statement-seq:
+    statement
+    statement-seq statement
+
+init-statement:
+    expression-statement
+    simple-declaration
+
+condition:
+    expression
+
+iteration-statement:
+    while ( condition ) statement
+    do statement while ( expression ) ;
+    for ( init-statement conditionopt ; expressionopt ) statement
+    for ( for-range-declaration : for-range-initializer ) statement
+
+selection-statement:
+    if ( condition ) statement
+    if ( condition ) statement else statement
+
+expression-statement:
+    expression ;
+
+jump-statement:
+    break ;
+    continue ;
+    return expr-or-braced-init-list ;
+
+expr-or-braced-init-list:
+    expression
+
+expression:
+    assignment-expression
+    expression , assignment-expression
+
+assignment-expression:
+    conditional-expression
+    logical-or-expression assignment-operator initializer-clause
+
+assignment-operator:
+    =
+
+conditional-expression:
+    logical-or-expression
+
+logical-or-expression:
+    logical-and-expression
+
+logical-and-expression:
+    inclusive-or-expression
+
+inclusive-or-expression:
+    exclusive-or-expression
+
+exclusive-or-expression:
+    and-expression
+
+and-expression:
+    equality-expression
+
+equality-expression:
+    relational-expression
+    equality-expression == relational-expression
+
+relational-expression:
+    shift-expression
+    relational-expression < shift-expression
+    relational-expression > shift-expression
+    relational-expression <= shift-expression
+    relational-expression >= shift-expression
+
+shift-expression:
+    additive-expression
+    shift-expression << additive-expression
+
+additive-expression:
+    multiplicative-expression
+    additive-expression + multiplicative-expression
+    additive-expression - multiplicative-expression
+
+multiplicative-expression:
+    pm-expression
+    multiplicative-expression * pm-expression
+    multiplicative-expression / pm-expression
+    multiplicative-expression % pm-expression
+
+pm-expression:
+    cast-expression
+
+cast-expression:
+    unary-expression
+
+unary-expression:
+    postfix-expression
+    ++ cast-expression
+    -- cast-expression
+    unary-operator cast-expression
+
+unary-operator:
+    +
+    -
+    !
+    ~
+
+postfix-expression:
+    primary-expression
+    postfix-expression ++
+    postfix-expression [ expression ]
+    postfix-expression ( expression-listopt )
+
+primary-expression:
+    literal
+    ( expression )
+    id-expression
+
+id-expression:
+    unqualified-id
+    qualified-id
+
+unqualified-id:
+    identifier
+
+qualified-id:
+    nested-name-specifier identifier
+
+nested-name-specifier:
+    namespace-name ::
+
+namespace-name:
+    identifier
